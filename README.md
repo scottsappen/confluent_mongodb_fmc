@@ -4,7 +4,7 @@
 
 # Overview
 
-The question was: can you use Confluent's Fully Managed Connector (FMC) for MongoDB Atlas as a sink and sink embeddings? And specifically is it possible to create the embeddings in an external program and stored in a Confluent Kafka topic and sinked using the FMC. In other words, the embeddings are not created inside Confluent Flink using ML_PREDICT, for intance.
+The question was: can you use Confluent's Fully Managed Connector (FMC) for MongoDB Atlas as a sink and sink embeddings? And specifically is it possible to create the embeddings in an external program, then store them in a Confluent Kafka topic and finally sink them to MongoDB Atlas using Confluent's MongoDB Atlas FMC. In other words, the embeddings are not created inside Confluent Flink using ML_PREDICT, for intance.
 
 The answer is: yes, you can
 
