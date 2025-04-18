@@ -6,7 +6,6 @@ from confluent_kafka import Producer
 from faker import Faker
 import re
 from openai import OpenAI
-from confluent_kafka import Producer
 from dotenv import load_dotenv
 import os
 import configparser
