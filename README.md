@@ -37,7 +37,7 @@ Edit your [`client.properties`](./.env) file with your Confluent Cloud credentia
 Then run the datagen program:
 
 ```python
-./producer_trails.py 1
+python producer_trails.py 1
 ```
 
 You can just run it with 1 or change the number of mock events to publish to Confluent kafka.
