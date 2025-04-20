@@ -36,7 +36,7 @@ Edit your [`client.properties`](./.env) file with your Confluent Cloud credentia
 
 Then run the datagen program:
 
-```python
+```shell
 python producer_trails.py 1
 ```
 
