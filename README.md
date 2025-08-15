@@ -1,52 +1,59 @@
-# Confluent's Fully Managed Connector (FMC) for MongoDB Atlas
+# Confluent + MongoDB Atlas: Sink Embeddings with a Fully Managed Connector
 
 <br>
 
 # Overview
+Ever wondered if you can push pre-built embeddings through Confluent and land them in MongoDB Atlas with no custom plumbing?
 
-The question was: can you use Confluent's Fully Managed Connector (FMC) for MongoDB Atlas as a sink and sink embeddings? And specifically is it possible to create the embeddings in an external program, then store them in a Confluent Kafka topic and finally sink them to MongoDB Atlas using Confluent's MongoDB Atlas FMC. In other words, the embeddings are not created inside Confluent Flink using ML_PREDICT, for intance.
+👉 The answer: Yes, you can.
 
-The answer is: yes, you can
+This repo shows you how — in minutes, without complicated infra.
 
-This repo can help you prove it out on your own without complicated infrastructure. Hands-on, but super easy to do. This repo:
-- creates mock mountain biking trail data
-- the mock data contains embeddings generated on the fly from OpenAI
-- inserts each mock record into Confluent kafka as individual events
-- sinks the data using Confluent's FMC to MongoDB Atlas
-
-If you get stuck, remember in the Confluent Cloud UI is the Confluent AI Assistant. It can not only answer questions, but generate code for you!
-
-The assumption here is you are comfortable logging into Confluent Cloud, have an OpenAI API key and doing things like running python programs and installing required libraries from pip.
-
-Remember to tear down your connector in Confluent Cloud to avoid getting charged.
+You will:
+- 🚵 Generate mock mountain biking trail data
+- 🔑 Create embeddings on the fly with OpenAI
+- 📦 Publish events into Confluent Cloud Kafka
+- 🌍 Sink data into MongoDB Atlas using Confluent’s Fully Managed Connector (FMC)
 
 <br>
 
-## Login to Confluent Cloud and create a topic and publish data
+## 1. Prerequisites
 
-Create a topic named 'trails_raw_data' or edit your .env file to use a different name.
+- Confluent Cloud account  
+- MongoDB Atlas account  
+- OpenAI API key  
+- Python 3 + pip  
+
+> 💡 Tip: The Confluent Cloud UI has an **AI Assistant** that can answer setup questions or even generate code for you.  
+> Remember to tear down your connector in Confluent Cloud to avoid getting charged.
 
 <br>
 
-## Run the Python datagen program
+## 2. Create a Kafka Topic
 
-Edit your [`.env`](./.env) file with your OpenAI credentials.
+In Confluent Cloud:  
+- Create a topic named **`trails_raw_data`**  
+- (Or update your `.env` with a custom topic name)  
 
-Edit your [`client.properties`](./.env) file with your Confluent Cloud credentials.
+<br>
 
-Then run the datagen program:
+## 3. Configure Your Environment
 
-```shell
-python producer_trails.py 1
+- Edit [`.env`](./.env) with your **OpenAI credentials**  
+- Edit [`client.properties`](./client.properties) with your **Confluent credentials**  
+  - Unsure how? Go to **Clients → Producers → Set up new client** in Confluent Cloud to download a ready-to-use config  
+
+## 4. Run the Data Generator
+
+```bash
+python3 producer_trails.py 1
 ```
+- Replace `1` with the number of mock events you want to produce  
+- Each record includes an embedding generated via OpenAI  
 
-You can just run it with 1 or change the number of mock events to publish to Confluent kafka.
+📄 Script: [`producer_trails.py`](./producer_trails.py)  
 
-📄 View the script: [`producer_trails.py`](./producer_trails.py)
-
-If everything goes right, you should be able to view the data you produced in your MongoDB table!
-
-You can see the embeddings were created as part of the message.
+✅ If all goes well, you’ll see your events in the Confluent topic:  
 
 <table>
   <tr>
@@ -61,9 +68,11 @@ You can see the embeddings were created as part of the message.
 
 <br>
 
-## Create a MongoDB Atlas Sink Connector
+## 5. Create the MongoDB Atlas Sink Connector
 
-The connector settings are standard access credentials to your MongoDB Atlas endpoint.
+In Confluent Cloud:  
+- Add a **MongoDB Atlas Sink Connector**  
+- Provide your MongoDB Atlas connection string + credentials  
 
 <table>
   <tr>
@@ -85,9 +94,11 @@ The connector settings are standard access credentials to your MongoDB Atlas end
 
 <br>
 
-## Login to MongoDB Atlas and check out your collection
+## 6. Verify in MongoDB Atlas
 
-Your data should be flowing to your collection!
+Head over to your Atlas cluster → Collections.  
+
+You should see your Kafka events flowing into your MongoDB collection (embeddings included 🎉).  
 
 <table>
   <tr>
@@ -102,8 +113,21 @@ Your data should be flowing to your collection!
 
 <br>
 
-## Final thoughts
+## 7. Clean Up
 
-Hope that helps answer the question.
+Don’t forget to:  
+- Delete the connector  
+- Remove test topics if you don’t need them anymore  
 
-Just remember to tear your environment down once you're done.
+This avoids surprise charges in Confluent Cloud or Atlas.  
+
+<br>
+
+## Wrap-Up
+
+That’s it! You’ve proven you can:  
+- Generate embeddings externally  
+- Stream them through Confluent  
+- Land them in MongoDB Atlas seamlessly  
+
+Happy streaming 🚀  
