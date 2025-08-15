@@ -179,7 +179,6 @@ def produce(number_of_trails, producer_config):
 
     for message in messages:
         value = json.dumps(message)
-        print(f"Produced message: {value}")  # Print out the message
         producer.produce(CC_TOPIC_NAME, key=None, value=value, callback=acked)
         producer.poll(0)  # Adjust poll interval as needed
     producer.flush()
@@ -212,5 +211,7 @@ def main():
     producer_config = load_config(config_path)
 
     produce(number_of_trails, producer_config)
+
+    print("Program finished, go check your topic!")
 
 main()
